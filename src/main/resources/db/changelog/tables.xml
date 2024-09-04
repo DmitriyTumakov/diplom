@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="1725447345235-1" author="DMITRIY (generated)">
+        <createTable tableName="users">
+            <column name="username" type="varchar">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="token" type="varchar">
+                <constraints nullable="true" unique="true"/>
+            </column>
+            <column name="enabled" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1725447402859-1" author="DMITRIY (generated)">
+        <createTable tableName="files">
+            <column name="username" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_type" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file" type="blob">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1725468307188-1" author="DMITRIY (generated)">
+        <createTable tableName="authorities">
+            <column name="username" type="varchar">
+                <constraints nullable="true"/>
+            </column>
+            <column name="authority" type="varchar">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1725447345235-2" author="DMITRIY (generated)">
+        <addPrimaryKey tableName="users" columnNames="username"/>
+    </changeSet>
+    <changeSet id="1725447402859-2" author="DMITRIY (generated)">
+        <addPrimaryKey tableName="files" columnNames="file_name"/>
+    </changeSet>
+    <changeSet id="11725468307188-2" author="DMITRIY (generated)">
+        <addPrimaryKey tableName="authorities" columnNames="username"/>
+    </changeSet>
+    <changeSet id="1725447402859-3" author="DMITRIY (generated)">
+        <addForeignKeyConstraint baseTableName="files" baseColumnNames="username" constraintName="fk_id" referencedTableName="users"
+                                 referencedColumnNames="username"/>
+    </changeSet>
+    <changeSet id="11725468307188-3" author="DMITRIY (generated)">
+        <addForeignKeyConstraint baseTableName="authorities" baseColumnNames="username" constraintName="fk_id" referencedTableName="users"
+                                 referencedColumnNames="username"/>
+    </changeSet>
+</databaseChangeLog>
