@@ -2,11 +2,11 @@ package ru.netology.cloudservice.dao;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.io.Serializable;
+import java.util.Collection;
+import java.util.Set;
 
 @Builder
 @NoArgsConstructor
@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "USERS")
-public class UserEntity implements UserDetailsService {
+public class UserEntity implements UserDetails {
     @Id
     @Column(unique = true, nullable = false)
     private String username;
@@ -25,11 +25,40 @@ public class UserEntity implements UserDetailsService {
     @Column(unique = true)
     private String token;
 
-    @Column(nullable = false)
+    @Column(name = "enabled", nullable = false)
     private boolean enabled;
 
+    @Column(name = "expired", nullable = false)
+    private boolean accountNonExpired;
+
+    @Column(name = "credentials_expired", nullable = false)
+    private boolean credentialsNonExpired;
+
+    @Column(name = "locked", nullable = false)
+    private boolean accountNonLocked;
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return accountNonExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return credentialsNonExpired;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 }

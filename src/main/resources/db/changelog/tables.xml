@@ -14,7 +14,16 @@
             <column name="token" type="varchar">
                 <constraints nullable="true" unique="true"/>
             </column>
-            <column name="enabled" type="boolean">
+            <column name="enabled" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expired" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="credentials_expired" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked" type="boolean" defaultValue="false">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -30,7 +39,10 @@
             <column name="file_name" type="varchar">
                 <constraints nullable="false"/>
             </column>
-            <column name="file" type="blob">
+            <column name="file" type="bytea">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_size" type="bigserial">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -40,7 +52,7 @@
             <column name="username" type="varchar">
                 <constraints nullable="true"/>
             </column>
-            <column name="authority" type="varchar">
+            <column name="authority" type="varchar">56
                 <constraints nullable="true"/>
             </column>
         </createTable>

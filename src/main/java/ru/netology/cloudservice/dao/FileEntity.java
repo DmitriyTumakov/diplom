@@ -10,7 +10,6 @@ import lombok.*;
 @Entity
 @Table(name = "FILES")
 public class FileEntity {
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username", referencedColumnName = "username")
     private UserEntity user;
@@ -21,6 +20,9 @@ public class FileEntity {
 
     @Column(name = "file", nullable = false)
     private byte[] file;
+
+    @Column(name = "file_size", nullable = false)
+    private long fileSize;
 
     @Column(name = "content_type", nullable = false)
     private String contentType;
