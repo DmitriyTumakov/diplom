@@ -31,4 +31,3 @@ select
     a.username
 from
     authorities a;
-
