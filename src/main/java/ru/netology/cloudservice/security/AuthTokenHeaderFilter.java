@@ -18,8 +18,6 @@ import ru.netology.cloudservice.repository.AuthorityRepository;
 import ru.netology.cloudservice.repository.UserRepository;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
 public class AuthTokenHeaderFilter extends OncePerRequestFilter {

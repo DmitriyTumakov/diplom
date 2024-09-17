@@ -14,8 +14,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -27,7 +25,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
 
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @AllArgsConstructor
@@ -79,13 +76,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsManager userDetailsManager() {
-//        UserDetails user1 = User.builder().username("Kolya").password(encoder().encode("1234")).roles("USER").build();
-//        UserDetails user2 = User.builder().username("Petya").password(encoder().encode("4321")).roles("USER").build();
-//        UserDetails admin = User.builder().username("Admin").password(encoder().encode("admin")).roles("ADMIN").build();
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-//        userDetailsManager.createUser(user1);
-//        userDetailsManager.createUser(user2);
-//        userDetailsManager.createUser(admin);
         return userDetailsManager;
     }
 

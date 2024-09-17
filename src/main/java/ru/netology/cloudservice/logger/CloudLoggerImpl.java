@@ -1,8 +1,5 @@
 package ru.netology.cloudservice.logger;
 
-import lombok.extern.java.Log;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

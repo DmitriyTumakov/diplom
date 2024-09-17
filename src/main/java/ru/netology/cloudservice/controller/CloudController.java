@@ -9,7 +9,6 @@ import ru.netology.cloudservice.dao.UserEntity;
 import ru.netology.cloudservice.exceptions.InvalidCredentialsException;
 import ru.netology.cloudservice.exceptions.NotAuthenticatedException;
 import ru.netology.cloudservice.jsonobjects.Credentials;
-import ru.netology.cloudservice.dao.FileEntity;
 import ru.netology.cloudservice.jsonobjects.FileList;
 import ru.netology.cloudservice.logger.CloudLogger;
 import ru.netology.cloudservice.logger.CloudLoggerImpl;
