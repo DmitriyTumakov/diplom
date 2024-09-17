@@ -14,6 +14,7 @@ import ru.netology.cloudservice.repository.FileRepository;
 import ru.netology.cloudservice.repository.UserRepository;
 import ru.netology.cloudservice.service.CloudService;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,13 +39,13 @@ public class CloudServiceApplicationTests {
         String expectedToken = Instant.now().toEpochMilli() + "-" + UUID.randomUUID();
         String testToken = "Bearer " + expectedToken;
 
-        String result = cloudService.getTokenWithoutPrefix(testToken);
+        String result = getTokenWithoutPrefix(testToken);
 
         Assertions.assertEquals(expectedToken, result);
     }
 
     @Test
-    void CloudServiceLoginTest() throws JSONException {
+    void CloudServiceLoginTest() throws JSONException, IOException {
         String login = "Admin";
         String testPassword = "admin";
         String encodePassword = bCryptPasswordEncoder.encode(testPassword);
@@ -53,7 +54,7 @@ public class CloudServiceApplicationTests {
         user.setPassword(encodePassword);
         Mockito.when(userRepository.findByLogin(login)).thenReturn(user);
 
-        ConcurrentHashMap<String, String> result = cloudService.login(new Credentials(login, testPassword));
+        ConcurrentHashMap<String, String> result = cloudService.login(new Credentials(login, testPassword), user);
 
         Assertions.assertNotNull(result);
     }
@@ -69,6 +70,13 @@ public class CloudServiceApplicationTests {
         user.setPassword(encodePassword);
         Mockito.when(userRepository.findByLogin(login)).thenReturn(user);
 
-        Assertions.assertThrows(InvalidCredentialsException.class, () -> cloudService.login(new Credentials(testLogin, testPassword)));
+        Assertions.assertThrows(InvalidCredentialsException.class, () -> cloudService.login(new Credentials(testLogin, testPassword), user));
+    }
+
+    private String getTokenWithoutPrefix(String token) {
+        if (token.startsWith("Bearer ")) {
+            return token.substring("Bearer ".length());
+        }
+        return token;
     }
 }

@@ -1,6 +1,0 @@
-[2024-09-17T09:22:24.417916100] | INFO | User Admin logout succeeded.
-[2024-09-17T09:22:31.728319900] | INFO | User Admin login succeeded.
-[2024-09-17T09:22:42.120496100] | INFO | User Admin post file ClickFix-v4.0.0 (1).zip.
-[2024-09-17T09:22:49.302238800] | INFO | User Admin deleted file ClickFix-v4.0.0 (1).zip.
-[2024-09-17T09:22:56.323881100] | INFO | User Admin downloaded file ClickFix-v4.0.0.zip.
-[2024-09-17T09:27:46.917659600] | ERROR | User gfdsgsd login failed.

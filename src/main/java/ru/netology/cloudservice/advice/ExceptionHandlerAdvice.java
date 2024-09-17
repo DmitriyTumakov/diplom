@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.netology.cloudservice.exceptions.FileCannotBeUploadedException;
 import ru.netology.cloudservice.exceptions.InvalidCredentialsException;
 import ru.netology.cloudservice.exceptions.NotAuthenticatedException;
 
@@ -24,5 +25,10 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(NotAuthenticatedException.class)
     public ResponseEntity<Object> handleNotAuthenticatedException(NotAuthenticatedException e) {
         return new ResponseEntity<>("Not authenticated!", HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(FileCannotBeUploadedException.class)
+    public ResponseEntity<Object> handleFileCannotBeUploadedException(FileCannotBeUploadedException e) {
+        return new ResponseEntity<>("File Cannot be Uploaded!", HttpStatus.BAD_REQUEST);
     }
 }

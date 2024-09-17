@@ -7,11 +7,11 @@ import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.netology.cloudservice.exceptions.FileCannotBeUploadedException;
 import ru.netology.cloudservice.jsonobjects.Credentials;
 import ru.netology.cloudservice.dao.UserEntity;
 import ru.netology.cloudservice.dao.FileEntity;
 import ru.netology.cloudservice.exceptions.InvalidCredentialsException;
-import ru.netology.cloudservice.exceptions.NotAuthenticatedException;
 import ru.netology.cloudservice.jsonobjects.FileList;
 import ru.netology.cloudservice.logger.CloudLogger;
 import ru.netology.cloudservice.logger.CloudLoggerImpl;
@@ -19,10 +19,7 @@ import ru.netology.cloudservice.logger.LogType;
 import ru.netology.cloudservice.repository.UserRepository;
 import ru.netology.cloudservice.repository.FileRepository;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,19 +39,24 @@ public class CloudService {
     UserDetailsService userDetailsService;
 
     public ConcurrentHashMap<String, String> login(Credentials credentials, UserEntity authEntity) throws JSONException, IOException {
-        if (encoder().matches(credentials.getPassword(), authEntity.getPassword())) {
-            ConcurrentHashMap<String, String> result = new ConcurrentHashMap();
-            String authToken;
+        if (credentials.getLogin().equals(authEntity.getUsername())) {
+            if (encoder().matches(credentials.getPassword(), authEntity.getPassword())) {
+                ConcurrentHashMap<String, String> result = new ConcurrentHashMap();
+                String authToken;
 
-            authToken = Instant.now().toEpochMilli() + "-" + UUID.randomUUID();
+                authToken = Instant.now().toEpochMilli() + "-" + UUID.randomUUID();
 
-            authEntity.setToken(authToken);
-            userRepository.save(authEntity);
+                authEntity.setToken(authToken);
+                userRepository.save(authEntity);
 
-            logger.log("User " + credentials.getLogin() + " login succeeded.", LogType.INFO, true);
+                logger.log("User " + credentials.getLogin() + " login succeeded.", LogType.INFO, true);
 
-            result.put("auth-token", authToken);
-            return result;
+                result.put("auth-token", authToken);
+                return result;
+            } else {
+                logger.log("User " + credentials.getLogin() + " login failed.", LogType.ERROR, true);
+                throw new InvalidCredentialsException("Invalid credentials.");
+            }
         } else {
             logger.log("User " + credentials.getLogin() + " login failed.", LogType.ERROR, true);
             throw new InvalidCredentialsException("Invalid credentials.");
@@ -102,6 +104,7 @@ public class CloudService {
                 logger.log("User " + authEntity.getUsername() + " post file " + fileName + '.', LogType.INFO, true);
             } catch (IOException e) {
                 logger.log(e.getMessage(), LogType.ERROR, true);
+                throw new FileCannotBeUploadedException(e.getMessage());
             }
         }
     }
